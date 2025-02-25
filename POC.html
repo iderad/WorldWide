@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Wide PoC</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        #street-view { width: 100%; height: 500px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>World Wide PoC</h1>
+    <button onclick="loadRandomLocation()">Load Random Location</button>
+    <div id="street-view"></div>
+
+    <script>
+        let streetView;
+        const validLocations = [
+            { lat: 40.748817, lng: -73.985428 }, // NYC - Empire State
+            { lat: 48.858844, lng: 2.294351 },  // Paris - Eiffel Tower
+            { lat: 51.500729, lng: -0.124625 }, // London - Big Ben
+            { lat: 35.658581, lng: 139.745438 }, // Tokyo - Tokyo Tower
+            { lat: -33.856784, lng: 151.215297 } // Sydney - Opera House
+        ];
+
+        function initMap() {
+            console.log("Google Maps API Loaded Successfully");
+            loadRandomLocation();
+        }
+
+        function loadRandomLocation() {
+            if (typeof google === "undefined" || typeof google.maps === "undefined") {
+                alert("Google Maps API is still loading...");
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * validLocations.length);
+            const randomPosition = validLocations[randomIndex];
+
+            streetView = new google.maps.StreetViewPanorama(
+                document.getElementById("street-view"),
+                {
+                    position: randomPosition,
+                    pov: { heading: Math.random() * 360, pitch: 0 },
+                    zoom: 1,
+                }
+            );
+        }
+
+        window.loadRandomLocation = loadRandomLocation;
+    </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnL0hKxGwSdwX8CSFxsnTal91NuL06Qhk&v=weekly&callback=initMap"></script> 
+</body>
+</html>
